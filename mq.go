@@ -10,33 +10,33 @@ import (
 
 // Item struct
 type Item struct {
-	score   int64
+	score   int
 	content []byte
 }
 
 // MQ struct
 type MQ struct {
-	queues map[string][]Item
+	queues map[string][]*Item
 }
 
-func (mq *MQ) enQueue(name string, score int64, content []byte) {
+func (mq *MQ) enQueue(name string, score int, content []byte) {
 	var item Item
 	item.score = score
 	item.content = content
 	if _, ok := mq.queues[name]; ok {
 		for i := len(mq.queues[name]) - 1; i >= 0; i-- {
 			if item.score == mq.queues[name][i].score {
-				mq.queues[name] = append(append(mq.queues[name][:i], item), mq.queues[name][i:]...)
+				mq.queues[name] = append(append(mq.queues[name][:i], &item), mq.queues[name][i:]...)
 				return
 			}
 			if item.score < mq.queues[name][i].score {
-				mq.queues[name] = append(append(mq.queues[name][:i-1], item), mq.queues[name][i-1:]...)
+				mq.queues[name] = append(append(mq.queues[name][:i-1], &item), mq.queues[name][i-1:]...)
 				return
 			}
 		}
-		mq.queues[name] = append([]Item{item}, mq.queues[name]...)
+		mq.queues[name] = append([]*Item{&item}, mq.queues[name]...)
 	} else {
-		mq.queues[name] = []Item{item}
+		mq.queues[name] = []*Item{&item}
 		return
 	}
 }
@@ -52,7 +52,7 @@ func (mq *MQ) deQueue(name string) []byte {
 
 func main() {
 	var mq MQ
-	mq.queues = make(map[string][]Item)
+	mq.queues = make(map[string][]*Item)
 	http.HandleFunc("/queues", func(w http.ResponseWriter, r *http.Request) {
 		query := r.URL.Query()
 		if name, ok := query["name"]; ok {
@@ -72,7 +72,7 @@ func main() {
 						http.Error(w, err.Error(), 500)
 						return
 					}
-					mq.enQueue(name[0], scoreInt, b)
+					mq.enQueue(name[0], int(scoreInt), b)
 				} else {
 					mq.enQueue(name[0], 1024, b)
 				}
