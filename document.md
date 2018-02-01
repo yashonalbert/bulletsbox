@@ -1,12 +1,12 @@
 # 文档
 
-## 队列（Queue）
+## 队列（Queue）
 
 一个服务器有一个或者多个 Queue，用来储存统一类型的 Item。每个 Queue 由一个就绪队列与延迟队列组成。每个Item所有的状态迁移在一个 Queue 中完成。Subscriber 订阅者可以监控感兴趣的 Queue，通过发送 watch 指令。Subscriber 订阅者可以取消监控 Queue，通过发送 ignore 命令。
 
 当一个客户端连接上服务器时，客户端提交 Item 之前会使用 use 命令，那么这些 Item 就存于相应名称的 Queue 中。
 
-当客户端获取 Item 时，Item 会从就绪队列迁移至保留对象，服务器发送给所有订阅客户端后废弃此 Item，并继续从就需队列迁移 Item。
+当客户端获取 Item 时，Item 会从就绪队列迁移至保留对象，服务器发送给所有订阅客户端后废弃此 Item，并继续从就需队列迁移 Item。
 
 
 ## 命令（Cmd）
