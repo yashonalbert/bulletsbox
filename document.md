@@ -19,11 +19,11 @@ Use
 
 选择一个队列入口
 
-    Use <nameLen> <name>
+    Use <nameLen> <name>
     []byte{CmdUse, uint8, []byte(string)...}
 
-- Use 指令名称，实际值为二进制CmdUse（请查阅public/code.go）8位
-- nameLen 队列名称长度，范围0-255，8位
+- Use 指令名称，实际值为二进制CmdUse（请查阅public/code.go）8位
+- nameLen 队列名称长度，范围0-255，8位
 - name 队列名称
 
 Send
@@ -34,9 +34,9 @@ Send
      []byte{CmdSend, uint32, uint32, uint32, []byte...}
 
 - Send 指令名称，实际值为二进制 CmdSend（请查阅 public/code.go）8位
-- score 优先级，范围 0 - 2^32-1，默认 1024， 32位
-- delay 延迟，单位秒，范围 0 - 2^32-1，默认 0，32位
-- bodyLen 消息主体长度，范围 0 - 2^32-1，32位
+- score 优先级，范围 0 - 2^32-1，默认 1024， 32位
+- delay 延迟，单位秒，范围 0 - 2^32-1，默认 0，32位
+- bodyLen 消息主体长度，范围 0 - 2^32-1，32位
 - body 消息主体
 
 ### Sub指令说明
@@ -49,7 +49,7 @@ Watch
     []byte{CmdWatch, uint8, []byte(string)...}
 
 - Watch 指令名称，实际值为二进制 CmdWatch（请查阅 public/code.go）8位
-- nameLen 队列名称长度，范围 0 - 255，8位
+- nameLen 队列名称长度，范围 0 - 255，8位
 - name 队列名称
 
 Ignore
@@ -60,19 +60,19 @@ Ignore
     []byte{CmdIgnore, uint8, []byte(string)...}
 
 - Ignore 指令名称，实际值为二进制 CmdIgnore（请查阅 public/code.go）8位
-- nameLen 队列名称长度，范围 0 - 255，8位
+- nameLen 队列名称长度，范围 0 - 255，8位
 - name 队列名称
 
-Receive
+Receive
 
 接收订阅 Item
 
-    Receive
-    []byte{CmdReceive}
+    Receive
+    []byte{CmdReceive}
 
-- Receive 指令名称，实际值为二进制 CmdReceive（请查阅 public/code.go）8位
+- Receive 指令名称，实际值为二进制 CmdReceive（请查阅 public/code.go）8位
 
-正确响应：
+正确响应：
 
     ResSuccess <nameLen> <name> <bodyLen> <body>
 
